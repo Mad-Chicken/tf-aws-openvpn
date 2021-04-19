@@ -7,11 +7,13 @@ terraform {
   }
 }
 
+# Tells terraform what credentials to use.
 provider "aws" {
   region  = var.aws_region
   profile = var.aws_profile
 }
 
+# Runs the module (./modules/vpc) and passes in variables
 module "vpc" {
   source             = "./modules/vpc"
   vpc_private_subnet = var.vpc_private_subnet
@@ -23,11 +25,13 @@ module "vpc" {
   single_nat_gateway = var.piholeYN == "n" ? false : true
 }
 
+# Calls security group module
 module "sg" {
   source = "./modules/security_group"
   vpc_id = module.vpc.vpc_id
 }
 
+# Runs the ec2 module to create the openvpn server
 module "vpn_ec2" {
   source             = "./modules/ec2"
   instance_count     = "1"
@@ -61,6 +65,7 @@ module "vpn_ec2" {
   EOF
 }
 
+# Create a ec2 instance that runs the pihole instance
 module "pihole_ec2" {
   source             = "./modules/ec2"
   name               = "pihole"

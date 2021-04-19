@@ -1,3 +1,4 @@
+# Runs a module from github, this acts as a 'sub' module
 module "ec2_cluster" {
   source                 = "git::https://github.com/terraform-aws-modules/terraform-aws-ec2-instance.git?ref=tags/v2.10.0"
   name                   = var.name

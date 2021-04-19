@@ -1,3 +1,4 @@
+# Decare variables being used when they are passed in from the calling module
 variable "name" {
   type        = string
   description = "Name of ec2 instance"
