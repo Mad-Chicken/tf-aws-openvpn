@@ -1,0 +1,9 @@
+{
+	"files.exclude": {
+	  "**.terraform": true,
+	  "**/.terraform/*": true,
+	  "**/terraform.tfstate.backup": true,
+	  "**/terraform.tfstate": true,
+	  "**/.terraform.lock.hcl": true
+	}
+  }
