@@ -43,6 +43,7 @@ module "vpn_ec2" {
   key_name           = var.ec2_ssh_key
   tags = ["OpenVPN-as Server","dev"]
          # Description       | Environment
+  # userdata to run OpenVPN creation and configuration script
   user_data = <<-EOF
     #! /bin/bash
     sudo su
@@ -79,6 +80,7 @@ module "pihole_ec2" {
   # PiholeAdminPassword
   tags = ["pihole ad blocker","dev"]
          # Description       | Environment
+  # userdata to run Pihole and Unbound creation script
   user_data = <<-EOF
     #! /bin/bash
     sudo su -
@@ -138,73 +140,7 @@ module "pihole_ec2" {
     sleep 1
     service unbound restart
     sudo sed -i 's/1.0.0.1/127.0.0.1#5335/g' /etc/pihole/setupVars.conf
+    sleep 30
+    service unbound restart
   EOF
 }
-
-# PIHOLE_DNS_1=127.0.0.1#5335
-
-/*
-
-    wget https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-amd64.deb
-    sudo apt-get install ./cloudflared-stable-linux-amd64.deb
-    sudo useradd -s /usr/sbin/nologin -r -M cloudflared
-
-    echo "CLOUDFLARED_OPTS=--port 5053 --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query" > /etc/default/cloudflared
-
-    sudo chown cloudflared:cloudflared /etc/default/cloudflared
-    sudo chown cloudflared:cloudflared /usr/local/bin/cloudflared
-
-    echo "[Unit]
-      Description=cloudflared DNS over HTTPS proxy
-      After=syslog.target network-online.target
-      [Service]
-      Type=simple
-      User=cloudflared
-      EnvironmentFile=/etc/default/cloudflared
-      ExecStart=/usr/local/bin/cloudflared proxy-dns $CLOUDFLARED_OPTS
-      Restart=on-failure
-      RestartSec=10
-      KillMode=process
-      [Install]
-      WantedBy=multi-user.target" > /etc/systemd/system/cloudflared.service
-    sudo chown cloudflared:cloudflared /etc/systemd/system/cloudflared.service
-    sudo systemctl enable cloudflared
-    sudo syvstemctl start cloudflared
-
-
-
-
-    sleep 1
-    apt-get install -y unbound
-    sleep 1
-    echo "server:
-      verbosity: 0
-      interface: 127.0.0.1
-      port: 5335
-      do-ip4: yes
-      do-udp: yes
-      do-tcp: yes
-      do-ip6: no
-      prefer-ip6: no
-      harden-glue: yes
-      harden-dnssec-stripped: yes
-      use-caps-for-id: no
-      edns-buffer-size: 1472
-      prefetch: yes
-      num-threads: 1
-      so-rcvbuf: 1m
-      private-address: 192.168.0.0/16
-      private-address: 169.254.0.0/16
-      private-address: 172.16.0.0/12
-      private-address: 10.0.0.0/8
-      private-address: 10.0.1.0/8
-      private-address: 10.0.2.0/8
-      private-address: 10.0.99.0/24
-      private-address: fd00::/8
-      private-address: fe80::/10" > /etc/unbound/unbound.conf.d/pi-hole.conf
-    sleep 1
-    
-    service unbound restart
-
-
-*/

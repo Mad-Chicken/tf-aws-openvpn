@@ -5,5 +5,9 @@
 	  "**/terraform.tfstate.backup": true,
 	  "**/terraform.tfstate": true,
 	  "**/.terraform.lock.hcl": true
-	}
+	},
+	"gitlens.codeLens.recentChange.enabled": false,
+	"gitlens.codeLens.authors.enabled": false,
+	"gitlens.blame.line.enabled": false
   }
+
