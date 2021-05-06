@@ -3,7 +3,7 @@
 	  "**.terraform": true,
 	  "**/.terraform/*": true,
 	  "**/terraform.tfstate.backup": true,
-	  "**/terraform.tfstate": true,
+	  "**/terraform.tfstate": false,
 	  "**/.terraform.lock.hcl": true
 	},
 	"gitlens.codeLens.recentChange.enabled": false,
