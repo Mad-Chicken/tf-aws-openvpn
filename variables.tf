@@ -6,7 +6,7 @@ variable "aws_region" {
 
 variable "aws_profile" {
   type    = string
-  default = "aaiken"
+  default = ""
   description = "Which aws account is running the commands"
 }
 
