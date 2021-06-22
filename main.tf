@@ -110,37 +110,5 @@ module "pihole_ec2" {
     curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
 
     sleep 1
-    apt-get install -y unbound
-    sleep 1
-    echo "server:
-      verbosity: 0
-      interface: 127.0.0.1
-      port: 5335
-      do-ip4: yes
-      do-udp: yes
-      do-tcp: yes
-      do-ip6: no
-      prefer-ip6: no
-      harden-glue: yes
-      harden-dnssec-stripped: yes
-      use-caps-for-id: no
-      edns-buffer-size: 1472
-      prefetch: yes
-      num-threads: 1
-      so-rcvbuf: 1m
-      private-address: 192.168.0.0/16
-      private-address: 169.254.0.0/16
-      private-address: 172.16.0.0/12
-      private-address: 10.0.0.0/8
-      private-address: 10.0.1.0/8
-      private-address: 10.0.2.0/8
-      private-address: 10.0.99.0/24
-      private-address: fd00::/8
-      private-address: fe80::/10" > /etc/unbound/unbound.conf.d/pi-hole.conf
-    sleep 1
-    service unbound restart
-    sudo sed -i 's/1.0.0.1/127.0.0.1#5335/g' /etc/pihole/setupVars.conf
-    sleep 30
-    service unbound restart
   EOF
 }

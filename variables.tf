@@ -14,9 +14,10 @@ variable "aws_profile" {
 # Private subnet  : 10.0.1.0/24
 # Public subnet   : 10.0.2.0/24
 # VPN User Subnet : 10.0.99.0/24
+
 variable "vpc_name" {
   type    = string
-  default = "cit252_vpn_vpc"
+  default = "vpn_vpc"
   description = "What the vpc name should be"
 }
 
